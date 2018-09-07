@@ -53,7 +53,6 @@ class Turtle(object):
 			if len(select) != self.num_files:
 				print("[py-wsi error]: select array provided but does not match the number of files,", self.num_files)
 				return []
-
 		all_patches, all_coords, all_cls, all_labels = [], [], [], []
 		for i in range(self.num_files):
 			if select[i]:
@@ -190,7 +189,8 @@ class Turtle(object):
 		total_bytes = 0
 		total_meta_bytes = 0
 
-		for file in self.files:
+		for idx, file in enumerate(self.files):
+			print(idx, ' calculate_map_size:', file)
 			slide = open_slide(self.file_dir + file)
 			tile_size = patch_to_tile_size(patch_size, overlap)
 			tiles = DeepZoomGenerator(slide, tile_size=tile_size, overlap=overlap, limit_bounds=limit_bounds)

@@ -102,7 +102,6 @@ def sample_and_store_patches_by_row(
 		print("[py-wsi error]: requested level does not exist. Number of slide levels: " + str(tiles.level_count))
 		return 0
 	x_tiles, y_tiles = tiles.level_tiles[level]
-
 	x, y = 0, 0
 	count, batch_count = 0, 0
 	patches, coords, labels = [], [], []
