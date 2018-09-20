@@ -10,7 +10,8 @@ import numpy as np
 import time
 from datetime import timedelta
 from os import listdir
-from os.path import isfile, join
+from os.path import isfile, join, basename
+from glob import glob
 import math
 import itertools
 import sys
@@ -35,7 +36,8 @@ class Turtle(object):
         self.db_location = db_location
         self.db_name = db_name
         self.db_meta_name = self.__get_db_meta_name(db_name)
-        self.files = self.__get_files_from_dir(file_dir)
+        self.files_path = self.__get_files_path_from_dir(file_dir)
+        self.files = self.__get_files_name_from_files_path()
         self.num_files = len(self.files)
         self.xml_dir = xml_dir
         self.label_map = label_map
@@ -105,6 +107,15 @@ class Turtle(object):
 
     def __get_files_from_dir(self, file_dir, file_type='.svs'):
         return np.array([file for file in listdir(file_dir) if isfile(join(file_dir, file)) and file_type in file])
+
+    def __get_files_name_from_files_path(self):
+        files = [basename(f_path) for f_path in self.files_path]
+        return np.array(files)
+
+    # problem, currently get_files_path and get_files doesn't match because get_files is not recursive
+    def __get_files_path_from_dir(self, file_dir, file_type='.svs'):
+        files = glob(join(file_dir, '**/*'+file_type), recursive=True)
+        return np.array(files)
 
     def __get_db_meta_name(self, db_name):
         return db_name + "_meta"
@@ -250,11 +261,3 @@ class Turtle(object):
             print("[py-wsi error]: filename should end in .svs extension.")
             return False
         return True
->>>>>>> b0adf226d78f27d442afaec403b02ea46eeb764e
-
-
-
-
-
-
-
